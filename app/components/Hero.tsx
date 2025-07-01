@@ -1,6 +1,7 @@
 import { client, urlFor } from "@/sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
+
 async function getData(){
     const query = "*[_type == 'heroImage'][0]"
     const data = await client.fetch(query)

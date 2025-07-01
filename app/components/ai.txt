@@ -1,0 +1,7 @@
+AI dafinations
+1- food infromatic
+2- inhaile
+3- computer vision 
+4- NLP (natural language processing)
+5- speech processing
+6- robotics

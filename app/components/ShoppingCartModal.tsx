@@ -1,5 +1,3 @@
-// ShoppingCartModal.tsx
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -11,9 +9,8 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import { useShoppingCart } from "use-shopping-cart";
-import { CartItem } from "../types"; // Import CartItem type
-
-// error is resolved
+import { CartItem } from "../types"; // Assuming CartItem type is defined properly
+import React from "react"; // Needed for type React.MouseEvent
 
 export default function ShoppingCartModal() {
   const {
@@ -29,12 +26,12 @@ export default function ShoppingCartModal() {
   async function handleCheckoutClick(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     try {
-      const result = await redirectToCheckout();
+      const result = await redirectToCheckout("sdfghjfrty");
       if (result?.error) {
-        console.error("Checkout error:", result.error);
+        console.error(result.error);
       }
     } catch (error) {
-      console.error("Unexpected error during checkout:", error);
+      console.error(error);
     }
   }
 
@@ -103,7 +100,7 @@ export default function ShoppingCartModal() {
             <p className="mt-0.5 text-sm text-gray-500">
               Shipping and taxes are calculated at checkout
             </p>
-            <div className="mt-6 ">
+            <div className="mt-6">
               <Button className="w-full" onClick={handleCheckoutClick}>
                 Checkout
               </Button>

@@ -27,6 +27,7 @@ export default function CheckoutNow({
     image: urlFor(image).url(),
     price_id: price_id,
   };
+  
   return (
     <Button
       variant="outline"
@@ -34,6 +35,7 @@ export default function CheckoutNow({
         buyNow(product.price_id);
       }}
     >
+      
       Checkout Now
     </Button>
   );

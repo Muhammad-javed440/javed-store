@@ -2,11 +2,13 @@
 
 // Define the structure for an individual image object
 export interface ImageType {
-    _id: string;         // Unique identifier for the image
-    url: string;         // URL of the image
-    alt?: string;        // Optional alt text for accessibility
-    // You can add other fields here if needed (e.g., width, height, description, etc.)
-  }
+  _id: string;
+  alt?: string;
+  asset: {
+    _ref: string;
+    _type: string;
+  };
+}
   
   // Define the props for the ImageGallery component
   export interface ImageGalleryProps {
