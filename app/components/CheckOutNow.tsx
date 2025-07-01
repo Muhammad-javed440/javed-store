@@ -20,23 +20,23 @@ export default function CheckoutNow({
   }
 
   const product = {
-    name: name,
-    description: description,
-    price: price,
-    currency: currency,
+    name,
+    description,
+    price,
+    currency,
     image: urlFor(image).url(),
-    price_id: price_id,
+    price_id,
   };
-  
+
   return (
-    <Button
-      variant="outline"
-      onClick={() => {
-        buyNow(product.price_id);
-      }}
-    >
-      
-      Checkout Now
-    </Button>
+    <div className="w-full flex justify-center md:justify-start">
+      <Button
+        variant="outline"
+        onClick={() => buyNow(product.price_id)}
+        className="w-full sm:w-auto px-6 py-2 text-sm sm:text-base md:text-lg rounded-xl transition-all duration-200"
+      >
+        Checkout Now
+      </Button>
+    </div>
   );
 }

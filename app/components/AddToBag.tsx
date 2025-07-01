@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { urlFor } from "@/sanity/lib/client";
 import { useShoppingCart } from "use-shopping-cart";
 
-// Define a specific type for the image object expected from Sanity
 interface SanityImage {
   _type: string;
   asset: {
@@ -13,7 +12,6 @@ interface SanityImage {
   };
 }
 
-// Define the ProductCart interface with the image property typed as SanityImage
 export interface ProductCart {
   name: string;
   description: string;
@@ -23,7 +21,6 @@ export interface ProductCart {
   price_id: string;
 }
 
-// Define the AddToBag component
 export default function AddToBag({
   currency,
   name,
@@ -34,23 +31,32 @@ export default function AddToBag({
 }: ProductCart) {
   const { addItem, handleCartClick } = useShoppingCart();
 
-  // Product object that will be added to the cart
   const product = {
-    name: name,
-    description: description,
-    price: price,
-    currency: currency,
+    name,
+    description,
+    price,
+    currency,
     image: urlFor(image).url(),
-    price_id: price_id,
+    price_id,
   };
 
   return (
-    <Button className=""
+    <Button
       onClick={() => {
         addItem(product);
         handleCartClick();
-      
       }}
+      className="
+        w-full sm:w-auto
+        px-4 py-2
+        text-sm sm:text-base
+        font-semibold
+        bg-blue-600 text-white
+        hover:bg-blue-700
+        focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2
+        rounded-lg
+        transition duration-200 ease-in-out
+      "
     >
       Add To Cart
     </Button>

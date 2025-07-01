@@ -1,46 +1,77 @@
+"use client";
+
 import { client, urlFor } from "@/sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-async function getData(){
-    const query = "*[_type == 'heroImage'][0]"
-    const data = await client.fetch(query)
-    return data;
+interface HeroImageType {
+  image1: {
+    asset: {
+      _ref: string;
+      _type: string;
+    };
+  };
 }
-export default async function Hero(){
-const data = await getData()
 
-   return (
-<section className="mx-auto max-w-2xl px-4 sm:pb-6 lg:max-w-7xl lg:px-8">
-    <div className="mb-8 flex flex-wrap justify-between md:mb-16">
-        <div className="mb-6 flex w-full flex-col justify-center sm:mb-12 lg:mb-0 lg:w-1/3 lg:pb-24 lg:pt-48">
-         <h1 className="mb-4 text-4xl font-bold text-black sm:text-5xl md:mb-8 md:text-6xl">
-            Top Fashion for top price!</h1>
-         <p className="max-w-md leading-relaxed text-yellow-600 xl:text-lg">
-           We sell only the most exclusive and high quality products for you.
-           We are the best so come and shop with us.
-         </p>
-        </div>
-        <div className="mb-12 flex w-full md:mb-16 lg:w-2/3">
-        <div className="relative left-12 top-12 z-10 -ml-12 overflow-hidden rounded-lg bg-gray-100 shadow-lg md:left-16 md:top-16 lg:ml-0">
-            <Image src={urlFor(data.image1).url()} width={500} height={500} alt="shoe pic"
-            className="h-full w-full object-cover object-center "/>
+export default function Hero() {
+  const [data, setData] = useState<HeroImageType | null>(null);
 
-        </div >
-        </div>
-        </div>
+  useEffect(() => {
+    async function fetchData() {
+      const query = "*[_type == 'heroImage'][0]";
+      const res = await client.fetch(query);
+      setData(res);
+    }
 
-        <div  className="flex flex-col item-center justify-between gap-8 md:flex-row">
-        <div className="flex h-12 w-1/2 divide-x overflow-hidden rounded-lg border">
-            <Link href="/Men" className="flex w-1/3 item-center justify-center text-yellow-300 text-4xl transition duration-100  hover:bg-red-600 active:bg-gray-200">Men</Link>
-            <Link href="/Women" className="flex w-1/3 item-center justify-center text-yellow-300 text-4xl transition duration-100  hover:bg-red-600 active:bg-gray-200">Women</Link>
-            <Link href="/Teen" className="flex w-1/3 item-center justify-center text-yellow-300 text-4xl transition duration-100  hover:bg-red-600 active:bg-gray-200">Teen</Link>
+    fetchData();
+  }, []);
 
-        </div>
+  if (!data) return null;
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="flex flex-col-reverse items-center justify-between gap-12 lg:flex-row">
+        {/* Text Content */}
+        <div className="w-full lg:w-1/2 text-center lg:text-left">
+          <h1 className="mb-4 text-4xl font-bold text-black sm:text-5xl md:text-6xl">
+            Top Fashion for Top Price!
+          </h1>
+          <p className="max-w-md mx-auto lg:mx-0 leading-relaxed text-yellow-600 xl:text-lg">
+            We sell only the most exclusive and high quality products for you.
+            We are the best, so come and shop with us.
+          </p>
         </div>
 
-   
-</section>
+        {/* Image Content */}
+        <div className="w-full lg:w-1/2 flex justify-center">
+          <div className="relative w-[90%] max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl rounded-xl overflow-hidden bg-gray-100 shadow-lg">
+            <Image
+              src={urlFor(data.image1).url()}
+              width={700}
+              height={700}
+              alt="fashion banner"
+              className="h-auto w-full object-cover object-center"
+              priority
+            />
+          </div>
+        </div>
+      </div>
 
-   )
+      {/* Category Buttons */}
+      <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="flex w-full sm:w-auto divide-x overflow-hidden rounded-lg border">
+          {["Men", "Women", "Teen"].map((category) => (
+            <Link
+              key={category}
+              href={`/${category}`}
+              className="flex-1 text-center px-4 py-3 text-yellow-300 text-xl sm:text-2xl font-medium transition duration-200 hover:bg-red-600 active:bg-gray-200"
+            >
+              {category}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
